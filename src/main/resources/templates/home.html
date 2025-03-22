@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/head"::head>
+<body class="sub_page">
+
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <navbar th:replace="/fragments/navbar"::navbar>
+    <!-- end header section -->
+  </div>
+
+  <!-- about section -->
+<section class="about_section layout_padding">
+    <div class="sample_posts" th:each = "post : ${posts}">
+      <h4 th:text="${post.title}">title</h4>
+      <b><p th:text="${post.body}"><body>
+      </hr>
+      </body></p></b>
+      
+    </div>
+  </section>
+
+  <footer th:replace="/fragments/footer"::footer>
+</body>
+
+</html>
