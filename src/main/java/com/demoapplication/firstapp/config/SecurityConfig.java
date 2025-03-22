@@ -10,37 +10,44 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity (prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
 
-    public static String [] permittedUrls = {
-        "/"
-        ,"/register"
-        ,"/login"
-        ,"/db-console/**"
-        ,"/css/**"
-        ,"fonts/**"
-        ,"/images/**"
-        ,"/js/**"
-    
+    public static String[] permittedUrls = {
+            "/"
+            , "/register"
+            , "/login"
+            , "/db-console/**"
+            , "/css/**"
+            , "fonts/**"
+            , "/images/**"
+            , "/js/**"
     };
 
-    //creating the password encoder for encoding the user password before storing in DB
-    public BCryptPasswordEncoder passwordEncoder(){
+    // creating the password encoder for encoding the user password before storing
+    // in DB
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        //use lambda based configuration from spring boot 6.1
         http
-        .authorizeHttpRequests(requests ->
-        requests.requestMatchers(permittedUrls).permitAll());
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(permittedUrls)
+                        .permitAll().anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .successForwardUrl("/?loggedin"));
 
-
-        //disable the below changes after hosting it live as it is only specific for h2 dB
+        // disable the below changes after hosting it live as it is only specific for h2
+        // dB
         http.csrf(csrf -> csrf.disable());
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
         return http.build();
     }
-    
+
 }
