@@ -21,17 +21,17 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="#"
+            <form
                     th:action="@{/register}"
                     th:object="${account}" method="post">
               <div>
-                <input id="email" th:field="*{email}"   class="form-control" placeholder="Email" required="true" />
+                <input id="email" name="email"  th:field="*{email}"   class="form-control" placeholder="Email" required="true" />
               </div>
               <div>
-                <input id="password" type="password" th:field="*{password}" class="form-control" placeholder="Password" required="true"/>
+                <input id="password" name="password" type="password" th:field="*{password}" class="form-control" placeholder="Password" required="true"/>
               </div>
               <div>
-                <input id="firstname" type="text" th:field="*{firstname}" class="form-control" placeholder="First Name" required="true" />
+                <input id="firstname" name="firstname" type="text" th:field="*{firstname}" class="form-control" placeholder="First Name" required="true" />
               </div>
               <div class="btn_box">
                 <button type="submit">

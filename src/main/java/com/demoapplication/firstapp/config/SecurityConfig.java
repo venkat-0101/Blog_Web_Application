@@ -19,13 +19,14 @@ public class SecurityConfig {
             , "/login"
             , "/db-console/**"
             , "/css/**"
-            , "fonts/**"
+            , "/fonts/**"
             , "/images/**"
             , "/js/**"
     };
 
     // creating the password encoder for encoding the user password before storing
     // in DB
+    @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -41,12 +42,17 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .successForwardUrl("/?loggedin"));
+                        .defaultSuccessUrl("/?loggedin", true)
+                        .failureUrl("/login?error").
+                        permitAll())
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutSuccessUrl("/logout?success"));       
 
         // disable the below changes after hosting it live as it is only specific for h2
         // dB
         http.csrf(csrf -> csrf.disable());
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+        
         return http.build();
     }
 

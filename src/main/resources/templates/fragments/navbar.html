@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"  
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <header class="header_section">
         <div class="container">
@@ -14,12 +14,22 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <li class="nav-item ">
                   <a class="nav-link" href="/">Home </a>
                 </li>
+                <span sec:authorize="!isAuthenticated()">
                 <li class="nav-item">
                   <a class="nav-link" href="/register">Register</a>
                 </li>
+              </span>
+              <span sec:authorize="!isAuthenticated()">
                 <li class="nav-item">
                   <a class="nav-link" href="/login">Login</a>
                 </li>
+              </span>
+              <span sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                  <a class="nav-link" href="/profile">Profile</a>
+                </li>
+              </span>
+             
               </ul>
               </div>
             </div>
